@@ -41,15 +41,10 @@ The dataset should be organized as follows:
 │       ├── class_0/
 │       ├── class_1/
 │       └── ...
-└── val/
+└──test/
     ├── sar/
-    │   ├── class_0/
-    │   ├── class_1/
-    │   └── ...
-    └── eo/
-        ├── class_0/
-        ├── class_1/
-        └── ...
+  
+    
 ```
 
 ## Pre-trained Models
