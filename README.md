@@ -11,9 +11,21 @@ This repository implements a SAR-EO image classification model for the PBVS 2025
 - **EO Pre-training**: Leverages weights pre-trained on EO images
 
 ## Environment Setup
+You can set up the environment using the provided `environments.txt` file:
+
 ```bash
-# Install required packages
-pip install torch torchvision tqdm scikit-learn matplotlib tensorboard pandas
+# Create a new conda environment
+conda create -n pbvs2025 python=3.8
+conda activate pbvs2025
+
+# Install dependencies from environments.txt
+pip install -r environments.txt
+```
+
+Alternatively, you can install the key packages manually:
+```bash
+pip install torch==1.12.1+cu116 torchvision==0.13.1+cu116 -f https://download.pytorch.org/whl/torch_stable.html
+pip install tqdm scikit-learn matplotlib tensorboard pandas
 ```
 
 ## Dataset Structure
