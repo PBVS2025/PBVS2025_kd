@@ -1,0 +1,26 @@
+# 모델 체크포인트 파일 제외
+*.pth
+*.pt
+*.ckpt
+
+# 로그 및 결과 파일 제외
+runs/*/events.*
+runs/*/checkpoints/
+*.log
+*.out
+
+# 캐시 파일 제외
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/
+.DS_Store
+
+# 가상환경 제외
+venv/
+env/
+.env/
+
+# 데이터셋 제외 (필요시)
+# data/
+# datasets/

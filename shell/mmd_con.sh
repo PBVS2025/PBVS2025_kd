@@ -1,0 +1,17 @@
+python ../train_model.py \
+--data_root /home/whisper2024/PBVS/Unicorn_Dataset \
+--output_dir ../runs/all_resnet101_eo_pretrained_mmdcon_confi_4_100ep_1e-3 \
+--batch_size 128 \
+--pretrained_path /home/mjh/challenge/pbvs2025/Probabilistic-Unet-Pytorch/EO_Pretrained/4.pth \
+--epochs 100 \
+--lr 1e-3 \
+--optimizer adamw \
+--use_feature_matching \
+--feature_matching_weight 0.1 \
+--contrastive_method supcon \
+--contrastive_weight 0.1 \
+--temperature 0.3 \
+--gpus "0,1,2" \
+--use_class_weights \
+--use_confidence \
+--confidence_lambda 1.0
