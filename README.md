@@ -119,12 +119,6 @@ python test.py \
 - `--batch_size`: Batch size for inference
 - `--gpu`: GPU ID to use
 
-## Model Architecture
-This implementation is based on ResNet101 with the following structure:
-- SAR image encoder: ResNet101
-- EO image encoder: ResNet101 (pre-trained)
-- Confidence prediction head: 2-layer MLP
-- Projection head: 2-layer MLP (for Contrastive Learning)
 
 ## Citation
 If you use this code, please cite:
