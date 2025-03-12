@@ -24,3 +24,4 @@ env/
 # 데이터셋 제외 (필요시)
 # data/
 # datasets/
+runs/

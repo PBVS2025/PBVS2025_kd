@@ -66,7 +66,7 @@ def parse_args():
     parser.add_argument('--moving_average_decay', type=float, default=0.9, help='Moving average decay for feature matching loss')
     parser.add_argument('--confidence_lambda', type=float, default=1.0, help='Weight for confidence loss')
     parser.add_argument('--use_confidence', action='store_true', help='Use confidence prediction')
-
+    parser.add_argument('--resume', type=str, default='', help='Path to resume training')
     return parser.parse_args()
 
 def setup_logging(output_dir):
@@ -306,7 +306,43 @@ def main():
         schedulers=[warmup_scheduler, main_scheduler],
         milestones=[1 * len(train_loader)]  
     )
+    # 체크포인트에서 학습 재개
+    start_epoch = 0
+    best_val_acc = 0
     
+    if args.resume:
+        if os.path.isfile(args.resume):
+            logger.info(f"Loading checkpoint from: {args.resume}")
+            checkpoint = torch.load(args.resume, map_location=device)
+            
+            # 모델 가중치 로드
+            if 'model_state_dict' in checkpoint:
+                if hasattr(model, 'module'):
+                    model.module.load_state_dict(checkpoint['model_state_dict'])
+                else:
+                    model.load_state_dict(checkpoint['model_state_dict'])
+                
+                # 옵티마이저와 스케줄러 상태 로드
+                if 'optimizer_state_dict' in checkpoint:
+                    optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+                
+                if 'scheduler_state_dict' in checkpoint:
+                    scheduler.load_state_dict(checkpoint['scheduler_state_dict'])
+                
+                # 에폭과 최고 정확도 로드
+                if 'epoch' in checkpoint:
+                    start_epoch = checkpoint['epoch'] + 1  # 다음 에폭부터 시작
+                
+                if 'best_val_acc' in checkpoint:
+                    best_val_acc = checkpoint['best_val_acc']
+                
+                logger.info(f"Checkpoint loaded. Resuming from epoch {start_epoch}")
+                logger.info(f"Best validation accuracy so far: {best_val_acc:.2f}%")
+            else:
+                logger.warning("Checkpoint does not contain model_state_dict. Starting from scratch.")
+        else:
+            logger.warning(f"No checkpoint found at: {args.resume}. Starting from scratch.")
+
     criterion = nn.CrossEntropyLoss(weight=class_weights.to(device) if args.use_class_weights else None)
     contrastive_criterion = None
     if args.contrastive_method == 'supcon':
@@ -317,7 +353,7 @@ def main():
     
     best_val_acc = 0
     accumulation_steps = 2  # Effective batch size = batch_size * accumulation_steps
-    for epoch in range(args.epochs):
+    for epoch in range(start_epoch, args.epochs):
         torch.cuda.empty_cache()
         gc.collect()
         model.train()

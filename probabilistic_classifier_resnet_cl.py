@@ -19,7 +19,7 @@ class ProjectionHead(nn.Module):
 
 class EO_SAR_Model(nn.Module):
     def __init__(self, num_classes=10, feature_dim=2048, eo_pretrained=None, device=None, use_contrastive=False, use_confidence=False):
-        super(EO_SAR_Model, self).__init__()
+        super(EO_SAR_Model, self).__init__() 
         
         # Initialize encoders without pretrained weights
         self.eo_encoder = models.resnet101(weights=None)
@@ -67,8 +67,12 @@ class EO_SAR_Model(nn.Module):
         # Confidence head 추가
         self.use_confidence = use_confidence
         if use_confidence:
-            self.confidence_head = nn.Linear(feature_dim, 1)
-            
+            self.confidence_head = nn.Sequential(
+                nn.Linear(feature_dim, 512),
+                nn.ReLU(),
+                nn.Dropout(0.5),
+                nn.Linear(512, 1)
+            )
         
         self.feature_dim = feature_dim
         

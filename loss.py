@@ -2,43 +2,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-def mmd_loss(x, y, sigma=10.0):
-    """
-    Maximum Mean Discrepancy (MMD) 손실 계산
-    
-    Args:
-        x: 첫 번째 특징 벡터 [batch_size, feature_dim]
-        y: 두 번째 특징 벡터 [batch_size, feature_dim]
-        sigma: RBF 커널 대역폭 파라미터
-    
-    Returns:
-        MMD 손실값 (스칼라)
-    """
-    # 내적 행렬 계산
-    xx = torch.mm(x, x.t())
-    yy = torch.mm(y, y.t())
-    xy = torch.mm(x, y.t())
-    
-    # 거리 행렬 계산
-    x_norm = torch.sum(x * x, dim=1, keepdim=True)
-    y_norm = torch.sum(y * y, dim=1, keepdim=True)
-    
-    dx = x_norm + x_norm.t() - 2 * xx
-    dy = y_norm + y_norm.t() - 2 * yy
-    dxy = x_norm + y_norm.t() - 2 * xy
-    
-    # RBF 커널 적용
-    kxx = torch.exp(-dx / (2 * sigma**2))
-    kyy = torch.exp(-dy / (2 * sigma**2))
-    kxy = torch.exp(-dxy / (2 * sigma**2))
-    
-    # 대각 요소 제거
-    mask = 1 - torch.eye(x.size(0), device=x.device)
-    kxx = kxx * mask
-    kyy = kyy * mask
-    
-    # MMD 계산
-    return kxx.sum() / (x.size(0) * (x.size(0) - 1)) + kyy.sum() / (y.size(0) * (y.size(0) - 1)) - 2 * kxy.mean()
 
 def contrastive_loss(x, y, labels, temperature=0.1):
     """
@@ -69,14 +32,6 @@ def contrastive_loss(x, y, labels, temperature=0.1):
     
     return loss
 
-class MMDLoss(nn.Module):
-    """MMD Loss 모듈"""
-    def __init__(self, sigma=10.0):
-        super(MMDLoss, self).__init__()
-        self.sigma = sigma
-        
-    def forward(self, x, y):
-        return mmd_loss(x, y, sigma=self.sigma)
 
 class FeatureMatchingLoss(nn.Module):
     """Feature Matching Loss from GFMN paper"""

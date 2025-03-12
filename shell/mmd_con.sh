@@ -14,4 +14,5 @@ python ../train_model.py \
 --gpus "0,1,2" \
 --use_class_weights \
 --use_confidence \
---confidence_lambda 1.0
+--confidence_lambda 1.0 \
+--resume /home/mjh/challenge/pbvs2025/PBVS2025_mjh/runs/all_resnet101_eo_pretrained_mmdcon_confi_4_40ep_1e-3/20250309_052546/39_model.pth
