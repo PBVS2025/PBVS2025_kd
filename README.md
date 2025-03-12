@@ -49,7 +49,7 @@ The dataset should be organized as follows:
 
 ## Pre-trained Models
 Pre-trained models are available at the following Google Drive link:
-[Download Pre-trained Models](https://drive.google.com/drive/folders/your-folder-id)
+[Download Pre-trained Models](https://drive.google.com/drive/folders/1q498P1WjSlg0QHmL8WH6Ck5abpVNd0vZ?usp=sharing)
 
 Save the downloaded model files to the `pretrained/` directory.
 
