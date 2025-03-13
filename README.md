@@ -6,7 +6,7 @@ This repository implements a SAR-EO image classification model for the PBVS 2025
 ## Model Architecture
 The architecture of our KNUNIST model is shown below:
 
-![KNUNIST Architecture](figures/KNUNIST-architecture.pdf)
+![KNUNIST Architecture](figures/KNUNIST-architecture.png)
 
 The model uses a ResNet101 backbone with additional components for knowledge distillation, feature matching, and confidence prediction.
 
