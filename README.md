@@ -3,6 +3,13 @@
 ## Overview
 This repository implements a SAR-EO image classification model for the PBVS 2025 Challenge. We enhance SAR image classification performance by combining a ResNet101-based model with Knowledge Distillation, Feature Matching, and Contrastive Learning.
 
+## Model Architecture
+The architecture of our KNUNIST model is shown below:
+
+![KNUNIST Architecture](figures/KNUNIST-architecture.pdf)
+
+The model uses a ResNet101 backbone with additional components for knowledge distillation, feature matching, and confidence prediction.
+
 ## Key Features
 - **Knowledge Distillation**: Transfers knowledge from EO to SAR domain
 - **Confidence Prediction**: Estimates model uncertainty to provide classification confidence
@@ -119,12 +126,6 @@ python test.py \
 - `--batch_size`: Batch size for inference
 - `--gpu`: GPU ID to use
 
-## Model Architecture
-This implementation is based on ResNet101 with the following structure:
-- SAR image encoder: ResNet101
-- EO image encoder: ResNet101 (pre-trained)
-- Confidence prediction head: 2-layer MLP
-- Projection head: 2-layer MLP (for Contrastive Learning)
 
 ## Citation
 If you use this code, please cite:
